@@ -27,27 +27,20 @@
             var options = options || {};
             this.$div = $div;
 
-            this.initDefaultFunctions(options);
-
             $div.css('position', 'relative');
             this.rectangle = new Rectangle(0, 0, $div.width(), $div.height());
-        }
 
-        TreeMap.prototype.initDefaultFunctions = function(options) {
-            this.backgroundColor = function() {
-                return "black"
-            };
-            this.color = function() {
-                return "white"
-            };
-            this.nodeClass = function() {
-                return '';
-            }
-            this.click = function(){};
-            this.mouseenter = function(){};
-            this.mouseleave = function(){};
+            this.nodeClass = function() {return '';}
+            this.click = function() {};
+            this.mouseenter = function() {};
+            this.mouseleave = function() {};
 
             $.extend(this, options);
+
+            this.setNodeColors = function($box) {
+                if (this.backgroundColor) $box.css('background-color', this.backgroundColor());
+                if (this.color) $box.css('color', this.color());
+            }
         }
 
         TreeMap.SIDE_MARGIN = 10;
@@ -61,16 +54,23 @@
 
                 var $box = $('<div></div>');
                 $box.css($.extend(nodeBounds.style(), {
-                    'position' : 'absolute',
-                    'background': this.backgroundColor(node),
-                    'color': this.color(node)
+                    'position' : 'absolute'
                 }));
+
+                this.setNodeColors($box);
+
                 $box.addClass('treemap-node');
 
                 var self = this;
-                $box.bind('click', node, function(e){self.click(e.data, e)});
-                $box.bind('mouseenter', node, function(e){self.mouseenter(e.data, e)});
-                $box.bind('mouseleave', node, function(e){self.mouseleave(e.data, e)});
+                $box.bind('click', node, function(e) {
+                    self.click(e.data, e)
+                });
+                $box.bind('mouseenter', node, function(e) {
+                    self.mouseenter(e.data, e)
+                });
+                $box.bind('mouseleave', node, function(e) {
+                    self.mouseleave(e.data, e)
+                });
 
                 $box.appendTo(this.$div);
                 $box.addClass(this.nodeClass(node, $box));

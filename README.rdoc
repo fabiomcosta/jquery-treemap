@@ -5,39 +5,39 @@ A simple jQuery plugin to create a tree map view of json data.
 
 1. Import the script. Then your jQuery objects will have a new function.
 
-	$('div#someId').treemap([]);
+    $('div#someId').treemap([]);
 
 2. The json should have the follow format.
 
-	$('div#someId').treemap(
-	[
-		{
-		label: 'Label of treemap node',
-		value: 100, // A number that defines the size of the node into the tree map.
-		data: 'some arbitrary data. Can be a string'
-		},
-		{...} // This is a list
-	]);
+    $('div#someId').treemap(
+    [
+        {
+        label: 'Label of treemap node',
+        value: 100, // A number that defines the size of the node into the tree map.
+        data: 'some arbitrary data. Can be a string'
+        },
+        {...} // This is a list
+    ]);
 	
 3. Customizing the looking and feel.
 
 You can pass a second parameter containing some options to customize the looking and feel of the tree map.
 
-	$('div#someId).treemap(
-		[],
-		{
-			backgroundColor: function(node){
-				//node is an item of the list passed as the first arg of this fuction;
-				return 'red'; // You should return a css valid color string.
-			},
-			color: function(node){
-				//node is an item of the list passed as the first arg of this fuction;
-				return 'red'; // You should return a css valid color string.
-			},
-			nodeClass: function(node){
-				//node is an item of the list passed as the first arg of this fuction;
-				return 'my-class'; // You should return your customized css class here.
-			}
-		}
-	);
+    $('div#someId).treemap(
+        [],
+        {
+            backgroundColor: function(node){
+                //node is an item of the list passed as the first arg of this fuction;
+                return 'red'; // You should return a css valid color string.
+            },
+            color: function(node){
+                //node is an item of the list passed as the first arg of this fuction;
+                return 'red'; // You should return a css valid color string.
+            },
+            nodeClass: function(node){
+                //node is an item of the list passed as the first arg of this fuction;
+                return 'my-class'; // You should return your customized css class here.
+            }
+        }
+    );
 

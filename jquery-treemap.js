@@ -24,6 +24,7 @@
         }
 
         function TreeMap($div, options) {
+            var options = options || {};
             this.$div = $div;
             this.backgroundColor = options.backgroundColor || function() {
                 return "black"

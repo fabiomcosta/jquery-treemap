@@ -26,19 +26,31 @@
         function TreeMap($div, options) {
             var options = options || {};
             this.$div = $div;
-            this.backgroundColor = options.backgroundColor || function() {
-                return "black"
-            };
-            this.color = options.color || function() {
-                return "white"
-            };
-            this.nodeClass = options.nodeClass || function() {
-                return 'default-node';
-            }
+
+            this.initDefaultFunctions(options);
 
             $div.css('position', 'relative');
             this.rectangle = new Rectangle(0, 0, $div.width(), $div.height());
         }
+
+        TreeMap.prototype.initDefaultFunctions = function(options) {
+            this.backgroundColor = function() {
+                return "black"
+            };
+            this.color = function() {
+                return "white"
+            };
+            this.nodeClass = function() {
+                return '';
+            }
+            this.click = function(){};
+            this.mouseenter = function(){};
+            this.mouseleave = function(){};
+
+            $.extend(this, options);
+        }
+
+        TreeMap.SIDE_MARGIN = 10;
 
         TreeMap.prototype.paint = function(nodeList) {
             var nodeList = this.squarify(nodeList, this.rectangle);
@@ -53,20 +65,25 @@
                     'background': this.backgroundColor(node),
                     'color': this.color(node)
                 }));
-                $box.addClass('tree-map-node');
-                $box.addClass(this.nodeClass(node));
+                $box.addClass('treemap-node');
+
+                var self = this;
+                $box.bind('click', node, function(e){self.click(e.data, e)});
+                $box.bind('mouseenter', node, function(e){self.mouseenter(e.data, e)});
+                $box.bind('mouseleave', node, function(e){self.mouseleave(e.data, e)});
 
                 $box.appendTo(this.$div);
+                $box.addClass(this.nodeClass(node, $box));
 
                 var $label = $("<div><span>" + node.label + "</span></div>");
                 $label.css({
                     'position': 'relative',
-                    'text-align': 'center',
-                    'margin-top': (parseInt($box.height()) / 2 + 'px')
+                    'text-align': 'center'
                 });
                 $box.append($label);
+                $label.css('margin-top', (parseInt($box.height()) / 2) - (parseInt($label.height()) / 2) + 'px');
 
-                if ($label.find('span').height() > nodeBounds.height || $label.find('span').width() > nodeBounds.width) {
+                if ($label.find('span').height() > nodeBounds.height || $label.find('span').width() + TreeMap.SIDE_MARGIN > nodeBounds.width) {
                     $box.html('');
                 }
 

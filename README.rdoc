@@ -41,3 +41,22 @@ You can pass a second parameter containing some options to customize the looking
         }
     );
 
+4. Customizing the events
+
+You can alsa pass functions to deal with events related to mouse.
+
+    $('div#someId).treemap(
+        [],
+        {
+            click: function(node, event){
+                // click on a node
+            },
+            mouseenter: function(node, event){
+                // mouse enter a node
+            },
+            mouseleave: function(node){
+                //mouse leaves a node
+            }
+        }
+    );
+

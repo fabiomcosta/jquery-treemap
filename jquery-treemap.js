@@ -34,6 +34,7 @@
             this.click = function() {};
             this.mouseenter = function() {};
             this.mouseleave = function() {};
+            this.mousemove = function() {};
 
             $.extend(this, options);
 
@@ -63,13 +64,16 @@
 
                 var self = this;
                 $box.bind('click', node, function(e) {
-                    self.click(e.data, e)
+                    self.click(e.data, e);
                 });
                 $box.bind('mouseenter', node, function(e) {
-                    self.mouseenter(e.data, e)
+                    self.mouseenter(e.data, e);
                 });
                 $box.bind('mouseleave', node, function(e) {
-                    self.mouseleave(e.data, e)
+                    self.mouseleave(e.data, e);
+                });
+                $box.bind('mousemove', node, function(e) {
+                    self.mousemove(e.data, e);
                 });
 
                 $box.appendTo(this.$div);

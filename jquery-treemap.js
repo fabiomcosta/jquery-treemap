@@ -93,7 +93,7 @@
                 $content.css({
                     'position': 'relative',
                     'text-align': 'center',
-                    'font-size': '3.1em'
+                    'font-size': '24px'
                 });
                 $box.append($content);
 
@@ -107,12 +107,12 @@
         TreeMap.prototype.fitLabelFontSize = function($content, node) {
             var nodeBounds = node.bounds
             while ($content.height() + TreeMap.TOP_MARGIN > nodeBounds.height || $content.width() + TreeMap.SIDE_MARGIN > nodeBounds.width) {
-                var fontSize = parseFloat($content.css('font-size')) - 0.5;
-                if (fontSize < 1.0) {
+                var fontSize = parseFloat($content.css('font-size')) - 3;
+                if (fontSize < 15) {
                     $content.remove();
                     break;
                 }
-                $content.css('font-size', fontSize +'em');
+                $content.css('font-size', fontSize +'px');
             }
             this.paintCallback($content, node);
         }

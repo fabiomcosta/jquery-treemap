@@ -30,11 +30,19 @@
             $div.css('position', 'relative');
             this.rectangle = new Rectangle(0, 0, $div.width(), $div.height());
 
-            this.nodeClass = function() {return '';}
-            this.click = function() {};
-            this.mouseenter = function() {};
-            this.mouseleave = function() {};
-            this.mousemove = function() {};
+            this.nodeClass = function() {
+                return '';
+            }
+            this.click = function() {
+            };
+            this.mouseenter = function() {
+            };
+            this.mouseleave = function() {
+            };
+            this.mousemove = function() {
+            };
+            this.paintCallback = function() {
+            };
 
             $.extend(this, options);
 
@@ -44,7 +52,8 @@
             }
         }
 
-        TreeMap.SIDE_MARGIN = 10;
+        TreeMap.SIDE_MARGIN = 20;
+        TreeMap.TOP_MARGIN = 20;
 
         TreeMap.prototype.paint = function(nodeList) {
             var nodeList = this.squarify(nodeList, this.rectangle);
@@ -79,19 +88,33 @@
                 $box.appendTo(this.$div);
                 $box.addClass(this.nodeClass(node, $box));
 
-                var $label = $("<div><span>" + node.label + "</span></div>");
-                $label.css({
+                var $content = $("<div>" + node.label + "</div>");
+                $content.addClass('treemap-label');
+                $content.css({
                     'position': 'relative',
-                    'text-align': 'center'
+                    'text-align': 'center',
+                    'font-size': '3.1em'
                 });
-                $box.append($label);
-                $label.css('margin-top', (parseInt($box.height()) / 2) - (parseInt($label.height()) / 2) + 'px');
+                $box.append($content);
 
-                if ($label.find('span').height() > nodeBounds.height || $label.find('span').width() + TreeMap.SIDE_MARGIN > nodeBounds.width) {
-                    $box.html('');
-                }
+                this.fitLabelFontSize($content, node);
+
+                $content.css('margin-top', (parseInt($box.height()) / 2) - (parseInt($content.height()) / 2) + 'px');
 
             }
+        }
+
+        TreeMap.prototype.fitLabelFontSize = function($content, node) {
+            var nodeBounds = node.bounds
+            while ($content.height() + TreeMap.TOP_MARGIN > nodeBounds.height || $content.width() + TreeMap.SIDE_MARGIN > nodeBounds.width) {
+                var fontSize = parseFloat($content.css('font-size')) - 0.5;
+                if (fontSize < 1.0) {
+                    $content.remove();
+                    break;
+                }
+                $content.css('font-size', fontSize +'em');
+            }
+            this.paintCallback($content, node);
         }
 
         TreeMap.HORIZONTAL = 1;

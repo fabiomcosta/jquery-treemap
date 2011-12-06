@@ -7,7 +7,7 @@
             this.y = y;
             this.width = width;
             this.height = height;
-            this.margin = 3;
+            this.margin = 4;
         }
 
         Rectangle.prototype.style = function() {

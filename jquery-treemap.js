@@ -112,7 +112,7 @@
                     $content.remove();
                     break;
                 }
-                $content.css('font-size', fontSize +'px');
+                $content.css('font-size', fontSize + 'px');
             }
             this.paintCallback($content, node);
         }
@@ -195,7 +195,14 @@
             return result;
         };
 
-        new TreeMap(this, options).paint(json);
+        var self = this;
+        this.fadeOut(400, function() {
+            self.html('');
+            self.show();
+            new TreeMap(self, options).paint(json);
+        });
+
+
     };
 
 })(jQuery);

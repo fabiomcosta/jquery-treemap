@@ -196,10 +196,11 @@
         };
 
         var self = this;
-        this.fadeOut(400, function() {
+        this.fadeOut('fast', function() {
             self.html('');
-            self.show();
-            new TreeMap(self, options).paint(json);
+            self.fadeIn('fast', function() {
+                new TreeMap(self, options).paint(json);
+            });
         });
 
 

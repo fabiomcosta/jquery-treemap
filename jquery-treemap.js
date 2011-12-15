@@ -43,6 +43,8 @@
             };
             this.paintCallback = function() {
             };
+            this.ready = function() {
+            };
 
             $.extend(this, options);
 
@@ -62,7 +64,7 @@
                 var node = nodeList[i];
                 var nodeBounds = node.bounds;
 
-                var $box = $('<div></div>');
+                var $box = $('<div id=' + node.id + '></div>');
                 $box.css($.extend(nodeBounds.style(), {
                     'position' : 'absolute'
                 }));
@@ -102,6 +104,7 @@
                 $content.css('margin-top', (parseInt($box.height()) / 2) - (parseInt($content.height()) / 2) + 'px');
 
             }
+            this.ready();
         }
 
         TreeMap.prototype.fitLabelFontSize = function($content, node) {

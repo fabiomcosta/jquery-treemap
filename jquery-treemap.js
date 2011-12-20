@@ -198,9 +198,8 @@
 
     $.fn.treemap = function(json, options) {
         var self = this;
-        this.fadeOut('fast', function() {
-            self.html('');
-            self.fadeIn('fast', function() {
+        return this.fadeOut('fast', function() {
+            self.empty().fadeIn('fast', function() {
                 new TreeMap(self, options).paint(json);
             });
         });

@@ -48,9 +48,11 @@
 
             $.extend(this, options);
 
-            this.setNodeColors = function($box) {
-                if (this.backgroundColor) $box.css('background-color', this.backgroundColor());
-                if (this.color) $box.css('color', this.color());
+            this.setNodeColors = function($box,node) {
+				if (node.backgroundColor) $box.css('background-color', node.backgroundColor);
+                if (this.backgroundColor && !node.backgroundColor) $box.css('background-color', this.backgroundColor());
+                if (node.color) $box.css('color', node.color);
+                if (this.color && !node.color) $box.css('color', this.color());
             }
         }
 
@@ -69,7 +71,7 @@
                     'position' : 'absolute'
                 }));
 
-                this.setNodeColors($box);
+                this.setNodeColors($box,node);
 
                 $box.addClass('treemap-node');
 
@@ -90,12 +92,15 @@
                 $box.appendTo(this.$div);
                 $box.addClass(this.nodeClass(node, $box));
 
-                var $content = $("<div>" + node.label + "</div>");
-                $content.addClass('treemap-label');
+                var $content = $("<div><span class='" + node.iconCls + "'>" + node.label + "</span></div>");
+                $content.addClass('treemap-label'); 
                 $content.css({
                     'position': 'relative',
+					'width': '50%',
+					'margin': '0 auto',
                     'text-align': 'center',
-                    'font-size': '24px'
+                    'font-size': '18px',
+					'display' : 'inline-block'
                 });
                 $box.append($content);
 
@@ -111,13 +116,13 @@
             var nodeBounds = node.bounds
             while ($content.height() + TreeMap.TOP_MARGIN > nodeBounds.height || $content.width() + TreeMap.SIDE_MARGIN > nodeBounds.width) {
                 var fontSize = parseFloat($content.css('font-size')) - 3;
-                if (fontSize < 15) {
+                if (fontSize < 5) {
                     $content.remove();
                     break;
                 }
                 $content.css('font-size', fontSize + 'px');
             }
-            this.paintCallback($content, node);
+           this.paintCallback($content, node);
         }
 
         TreeMap.HORIZONTAL = 1;
